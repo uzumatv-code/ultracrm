@@ -1,5 +1,6 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
+RUN apk add --no-cache openssl libc6-compat
 COPY package*.json ./
 COPY apps/api/package.json apps/api/package.json
 COPY apps/web/package.json apps/web/package.json
@@ -15,6 +16,7 @@ RUN npm run build
 
 FROM node:20-alpine AS runner
 WORKDIR /app
+RUN apk add --no-cache openssl libc6-compat
 ENV NODE_ENV=production
 ENV WEB_DIST_DIR=/app/apps/web/dist
 COPY --from=build /app/package*.json ./
