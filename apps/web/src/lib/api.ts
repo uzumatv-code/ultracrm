@@ -14,6 +14,10 @@ export function setSession(session: Session) {
   localStorage.setItem("ultracrm.session", JSON.stringify(session));
 }
 
+export function clearSession() {
+  localStorage.removeItem("ultracrm.session");
+}
+
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const token = getSession()?.accessToken;
   const response = await fetch(`${API_URL}${path}`, {
@@ -24,7 +28,13 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
       ...(init?.headers ?? {})
     }
   });
-  if (!response.ok) throw new Error(await response.text());
+  if (!response.ok) {
+    if (response.status === 401 || response.status === 403) {
+      clearSession();
+      if (window.location.pathname !== "/login") window.location.assign("/login");
+    }
+    throw new Error(await response.text());
+  }
   return response.json() as Promise<T>;
 }
 
