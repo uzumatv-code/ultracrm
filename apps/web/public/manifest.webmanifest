@@ -1,0 +1,9 @@
+{
+  "name": "UltraCRM AI",
+  "short_name": "UltraCRM",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": []
+}
