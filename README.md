@@ -166,3 +166,32 @@ npm run build
 ```
 
 CI GitHub Actions esta em `.github/workflows/ci.yml`.
+
+## Modulos implementados
+
+- Dashboard com indicadores de leads, conversas, clientes, vendas e mensagens.
+- Clientes com cadastro completo e historico por relacionamento.
+- Funil Kanban com etapas configuraveis e criacao/movimentacao de leads.
+- Inbox de conversas com historico, status e resposta manual registrada.
+- WhatsApp com instancias, QR code, status, envio de texto e midia via Evolution API.
+- Base RAG com upload, chunking, embeddings, indexacao Qdrant e busca semantica por tenant.
+- Agente supervisor com intencoes de venda, suporte, financeiro, agendamento e ordem de servico.
+- Acoes automaticas da IA para tarefas, OS e atividades de follow-up.
+- Tarefas manuais e automaticas.
+- Produtos e servicos.
+- Financeiro com pagamentos, cobrancas, PIX manual e baixa.
+- Agenda com compromissos e status.
+- Ordens de servico com status e orcamento.
+- Notas e etiquetas via API.
+- Relatorios de conversao, funil, atendimento, produtividade, CSV e resumo HTML imprimivel.
+- Admin com empresa, usuarios, perfis, permissoes e auditoria.
+- PWA com manifest e service worker.
+
+## Pendencias externas
+
+Estas capacidades estao prontas para configuracao, mas dependem de credenciais/servicos reais:
+
+- `OPENAI_API_KEY` para respostas generativas e embeddings.
+- `EVOLUTION_API_KEY` e `EVOLUTION_API_URL` reais para WhatsApp em producao.
+- Provedor de PIX/pagamentos se desejar emissao bancaria automatica em vez de PIX manual.
+- SMTP ou provedor de notificacoes caso queira emails transacionais.

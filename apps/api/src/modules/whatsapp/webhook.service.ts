@@ -54,6 +54,15 @@ export class WhatsAppWebhookService {
         metadata: payload as object
       }
     });
+    await prisma.auditLog.create({
+      data: {
+        companyId: instance.companyId,
+        action: "WEBHOOK",
+        entity: "Message",
+        entityId: payload.data?.key?.id,
+        metadata: { instanceKey, phone }
+      }
+    });
 
     const answer = await this.ai.answer(instance.companyId, client.id, body);
     await prisma.message.create({
@@ -71,6 +80,15 @@ export class WhatsAppWebhookService {
       await prisma.conversation.update({ where: { id: conversation.id }, data: { status: "WAITING_HUMAN" } });
     } else {
       await this.evolution.sendText(instance.instanceKey, phone, answer.text);
+      await prisma.auditLog.create({
+        data: {
+          companyId: instance.companyId,
+          action: "WHATSAPP_SEND",
+          entity: "Conversation",
+          entityId: conversation.id,
+          metadata: { intent: answer.intent, phone }
+        }
+      });
     }
 
     return { ok: true };

@@ -3,6 +3,7 @@ import multer from "multer";
 import pdf from "pdf-parse";
 import mammoth from "mammoth";
 import { z } from "zod";
+import { prisma } from "../../database/prisma.js";
 import { requireAuth, requirePermission } from "../middlewares/auth.js";
 import { validateBody } from "../middlewares/validate.js";
 import { RagService } from "../../modules/rag/rag.service.js";
@@ -12,6 +13,16 @@ const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 20 
 const service = new RagService();
 
 ragRoutes.use(requireAuth);
+
+ragRoutes.get("/documents", requirePermission("rag:manage"), async (req, res) => {
+  res.json(
+    await prisma.knowledgeDocument.findMany({
+      where: { companyId: req.auth!.companyId },
+      include: { _count: { select: { chunks: true } } },
+      orderBy: { createdAt: "desc" }
+    })
+  );
+});
 
 ragRoutes.post("/documents", requirePermission("rag:manage"), upload.single("file"), async (req, res) => {
   if (!req.file) return res.status(422).json({ code: "FILE_REQUIRED" });

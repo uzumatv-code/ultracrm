@@ -62,6 +62,14 @@ enum PaymentStatus {
   CANCELED
 }
 
+enum AppointmentStatus {
+  SCHEDULED
+  CONFIRMED
+  CANCELED
+  DONE
+  NO_SHOW
+}
+
 enum AuditAction {
   CREATE
   UPDATE
@@ -90,6 +98,7 @@ model Company {
   services    Service[]
   documents   KnowledgeDocument[]
   whatsapps   WhatsAppInstance[]
+  appointments Appointment[]
   logs        AuditLog[]
 }
 
@@ -108,6 +117,7 @@ model User {
   role         Role?      @relation(fields: [roleId], references: [id])
   refreshTokens RefreshToken[]
   tasks        Task[]
+  appointments Appointment[]
   logs         AuditLog[]
 
   @@index([companyId])
@@ -158,6 +168,7 @@ model Client {
   tags        ClientTag[]
   orders      ServiceOrder[]
   payments    Payment[]
+  appointments Appointment[]
 
   @@unique([companyId, phone])
   @@index([companyId, name])
@@ -352,6 +363,28 @@ model Payment {
 
   client      Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
 
+  @@index([companyId, status])
+}
+
+model Appointment {
+  id          String            @id @default(cuid())
+  companyId   String
+  clientId    String
+  userId      String?
+  title       String
+  notes       String?           @db.Text
+  startsAt    DateTime
+  endsAt      DateTime?
+  status      AppointmentStatus @default(SCHEDULED)
+  createdByAi Boolean           @default(false)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  company     Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  client      Client            @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  user        User?             @relation(fields: [userId], references: [id])
+
+  @@index([companyId, startsAt])
   @@index([companyId, status])
 }
 

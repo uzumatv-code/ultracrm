@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { BarChart3, Bot, Contact, KanbanSquare, MessageCircle, Settings, UploadCloud } from "lucide-react";
+import { BarChart3, BookOpen, CalendarDays, Contact, CreditCard, KanbanSquare, ListTodo, MessageCircle, Package, Settings, UploadCloud, Wrench } from "lucide-react";
 import { cn } from "../../lib/utils";
 
 const items = [
@@ -7,8 +7,14 @@ const items = [
   { to: "/conversas", label: "Conversas", icon: MessageCircle },
   { to: "/clientes", label: "Clientes", icon: Contact },
   { to: "/funil", label: "Funil", icon: KanbanSquare },
+  { to: "/tarefas", label: "Tarefas", icon: ListTodo },
+  { to: "/catalogo", label: "Catalogo", icon: Package },
+  { to: "/financeiro", label: "Financeiro", icon: CreditCard },
+  { to: "/agenda", label: "Agenda", icon: CalendarDays },
+  { to: "/os", label: "Ordens", icon: Wrench },
+  { to: "/whatsapp", label: "WhatsApp", icon: MessageCircle },
   { to: "/base", label: "Base RAG", icon: UploadCloud },
-  { to: "/ia", label: "Agentes", icon: Bot },
+  { to: "/relatorios", label: "Relatorios", icon: BookOpen },
   { to: "/configuracoes", label: "Ajustes", icon: Settings }
 ];
 

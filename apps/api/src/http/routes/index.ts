@@ -4,6 +4,7 @@ import { crmRoutes } from "./crm.routes.js";
 import { whatsappRoutes } from "./whatsapp.routes.js";
 import { ragRoutes } from "./rag.routes.js";
 import { reportRoutes } from "./report.routes.js";
+import { adminRoutes } from "./admin.routes.js";
 
 export const routes = Router();
 
@@ -13,3 +14,4 @@ routes.use("/crm", crmRoutes);
 routes.use("/whatsapp", whatsappRoutes);
 routes.use("/rag", ragRoutes);
 routes.use("/reports", reportRoutes);
+routes.use("/admin", adminRoutes);
